@@ -20,43 +20,65 @@ export function BugSquashGame() {
   const [bugs, setBugs] = useState<GameBug[]>([]);
   const [highScore, setHighScore] = useState(0);
 
-  // Game Loop
+  // Timer - separate effect so it doesn't reset when bugs change
   useEffect(() => {
     if (!isPlaying) return;
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
-          endGame();
+          setIsPlaying(false);
           return 0;
         }
         return prev - 1;
       });
     }, 1000);
 
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isPlaying]);
+
+  // Bug spawner - separate effect for spawning bugs
+  useEffect(() => {
+    if (!isPlaying) return;
+
     const spawner = setInterval(() => {
-      if (bugs.length < 8) {
-        spawnBug();
-      }
+      setBugs((currentBugs) => {
+        if (currentBugs.length < 8) {
+          const types: ("syntax" | "logic" | "runtime")[] = ["syntax", "logic", "runtime"];
+          const newBug: GameBug = {
+            id: Date.now(),
+            x: Math.random() * 80 + 10,
+            y: Math.random() * 80 + 10,
+            type: types[Math.floor(Math.random() * types.length)],
+            isSquashed: false,
+          };
+          return [...currentBugs, newBug];
+        }
+        return currentBugs;
+      });
     }, 800);
 
     return () => {
-      clearInterval(timer);
       clearInterval(spawner);
     };
-  }, [isPlaying, bugs.length]);
+  }, [isPlaying]);
 
-  const spawnBug = () => {
-    const types: ("syntax" | "logic" | "runtime")[] = ["syntax", "logic", "runtime"];
-    const newBug: GameBug = {
-      id: Date.now(),
-      x: Math.random() * 80 + 10, // 10% to 90%
-      y: Math.random() * 80 + 10,
-      type: types[Math.floor(Math.random() * types.length)],
-      isSquashed: false,
-    };
-    setBugs((prev) => [...prev, newBug]);
-  };
+  // Handle game end - check high score and show confetti
+  useEffect(() => {
+    if (timeLeft === 0 && !isPlaying && score > 0) {
+      if (score > highScore) {
+        setHighScore(score);
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#60a5fa', '#a78bfa', '#34d399']
+        });
+      }
+    }
+  }, [timeLeft, isPlaying, score, highScore]);
 
   const squashBug = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -76,19 +98,6 @@ export function BugSquashGame() {
     setScore(0);
     setTimeLeft(30);
     setBugs([]);
-  };
-
-  const endGame = () => {
-    setIsPlaying(false);
-    if (score > highScore) {
-      setHighScore(score);
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#60a5fa', '#a78bfa', '#34d399']
-      });
-    }
   };
 
   return (
