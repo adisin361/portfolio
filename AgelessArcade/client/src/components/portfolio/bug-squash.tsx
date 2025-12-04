@@ -103,17 +103,39 @@ export function BugSquashGame() {
   return (
     <>
       {/* Floating Action Button */}
-      <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-40 p-4 bg-primary text-primary-foreground rounded-full shadow-2xl border-2 border-white/10 shadow-primary/20 group"
+      <motion.div
+        className="fixed bottom-6 right-6 z-40"
+        initial={false}
+        whileHover="hover"
       >
-        <BugOff size={28} className="group-hover:animate-bounce" />
-        <span className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-card px-3 py-1 rounded-lg text-sm font-bold border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+        <motion.button
+          variants={{
+            hover: { scale: 1.1 }
+          }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIsOpen(true)}
+          className="p-4 bg-primary text-primary-foreground rounded-full shadow-2xl border-2 border-white/10 shadow-primary/20"
+        >
+          <motion.div
+            variants={{
+              hover: { y: [0, -4, 0] }
+            }}
+            transition={{ repeat: Infinity, duration: 0.6 }}
+          >
+            <BugOff size={28} />
+          </motion.div>
+        </motion.button>
+        <motion.span
+          variants={{
+            hover: { opacity: 1, x: 0 }
+          }}
+          initial={{ opacity: 0, x: 10 }}
+          transition={{ duration: 0.2 }}
+          className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-card px-3 py-2 rounded-lg text-sm font-bold border border-white/10 whitespace-nowrap pointer-events-none shadow-lg"
+        >
           Debug Mode
-        </span>
-      </motion.button>
+        </motion.span>
+      </motion.div>
 
       {/* Game Overlay */}
       <AnimatePresence>
