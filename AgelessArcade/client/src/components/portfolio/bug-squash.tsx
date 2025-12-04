@@ -124,7 +124,7 @@ export function BugSquashGame() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-background/90 backdrop-blur-sm flex items-center justify-center p-4"
           >
-            <div className="relative w-full max-w-3xl aspect-video bg-card/50 border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative w-full max-w-3xl h-[calc(100vh-2rem)] md:h-auto md:aspect-video bg-card/50 border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
               {/* Close Button */}
               <button
                 onClick={() => {
@@ -138,45 +138,45 @@ export function BugSquashGame() {
 
               {!isPlaying ? (
                 // Menu Screen
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 md:p-8 overflow-y-auto">
                   <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="mb-8"
+                    className="mb-4 md:mb-8"
                   >
-                    <BugOff size={64} className="text-primary mb-4 mx-auto" />
-                    <h2 className="text-4xl font-bold mb-2">Debug The Web</h2>
-                    <p className="text-muted-foreground max-w-md mx-auto">
+                    <BugOff size={48} className="md:w-16 md:h-16 text-primary mb-2 md:mb-4 mx-auto" />
+                    <h2 className="text-2xl md:text-4xl font-bold mb-2">Debug The Web</h2>
+                    <p className="text-sm md:text-base text-muted-foreground max-w-md mx-auto">
                       Bugs are taking over the production server! 
                       Squash as many as you can in 30 seconds.
                     </p>
                   </motion.div>
 
-                  <div className="grid grid-cols-3 gap-8 mb-8 text-sm">
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="p-3 bg-red-500/20 rounded-full text-red-400">
-                        <Bug size={20} />
+                  <div className="grid grid-cols-3 gap-4 md:gap-8 mb-4 md:mb-8 text-xs md:text-sm">
+                    <div className="flex flex-col items-center gap-1 md:gap-2">
+                      <div className="p-2 md:p-3 bg-red-500/20 rounded-full text-red-400">
+                        <Bug size={16} className="md:w-5 md:h-5" />
                       </div>
                       <span>Syntax Error</span>
                     </div>
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="p-3 bg-yellow-500/20 rounded-full text-yellow-400">
-                        <Bug size={20} />
+                    <div className="flex flex-col items-center gap-1 md:gap-2">
+                      <div className="p-2 md:p-3 bg-yellow-500/20 rounded-full text-yellow-400">
+                        <Bug size={16} className="md:w-5 md:h-5" />
                       </div>
                       <span>Logic Bug</span>
                     </div>
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="p-3 bg-purple-500/20 rounded-full text-purple-400">
-                        <Bug size={20} />
+                    <div className="flex flex-col items-center gap-1 md:gap-2">
+                      <div className="p-2 md:p-3 bg-purple-500/20 rounded-full text-purple-400">
+                        <Bug size={16} className="md:w-5 md:h-5" />
                       </div>
                       <span>Runtime Error</span>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-center gap-4">
+                  <div className="flex flex-col items-center gap-2 md:gap-4">
                     <button
                       onClick={startGame}
-                      className="px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-lg hover:scale-105 transition-transform flex items-center gap-2"
+                      className="px-6 py-3 md:px-8 md:py-4 bg-primary text-primary-foreground rounded-xl font-bold text-base md:text-lg hover:scale-105 transition-transform flex items-center gap-2"
                     >
                       <Play size={20} fill="currentColor" />
                       Start Debugging
@@ -195,16 +195,16 @@ export function BugSquashGame() {
                     // Penalty for missing? Maybe later.
                 }}>
                   {/* HUD */}
-                  <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start pointer-events-none z-40">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-xs uppercase tracking-widest text-muted-foreground">Time Remaining</span>
-                      <span className={cn("text-3xl font-mono font-bold", timeLeft < 10 ? "text-red-500 animate-pulse" : "text-foreground")}>
+                  <div className="absolute top-0 left-0 right-0 p-3 md:p-6 flex justify-between items-start pointer-events-none z-40">
+                    <div className="flex flex-col gap-0.5 md:gap-1">
+                      <span className="text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground">Time Remaining</span>
+                      <span className={cn("text-xl md:text-3xl font-mono font-bold", timeLeft < 10 ? "text-red-500 animate-pulse" : "text-foreground")}>
                         00:{timeLeft.toString().padStart(2, '0')}
                       </span>
                     </div>
-                    <div className="flex flex-col gap-1 items-end">
-                      <span className="text-xs uppercase tracking-widest text-muted-foreground">Bugs Squashed</span>
-                      <span className="text-3xl font-mono font-bold text-primary">
+                    <div className="flex flex-col gap-0.5 md:gap-1 items-end">
+                      <span className="text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground">Bugs Squashed</span>
+                      <span className="text-xl md:text-3xl font-mono font-bold text-primary">
                         {score}
                       </span>
                     </div>
@@ -233,7 +233,7 @@ export function BugSquashGame() {
                       onClick={(e) => squashBug(bug.id, e)}
                       disabled={bug.isSquashed}
                       className={cn(
-                        "absolute p-3 rounded-full shadow-lg transition-colors z-30",
+                        "absolute p-2 md:p-3 rounded-full shadow-lg transition-colors z-30",
                         bug.type === "syntax" && "bg-red-500 text-white",
                         bug.type === "logic" && "bg-yellow-500 text-black",
                         bug.type === "runtime" && "bg-purple-500 text-white",
@@ -241,9 +241,9 @@ export function BugSquashGame() {
                       )}
                     >
                       {bug.isSquashed ? (
-                        <span className="font-bold text-xs">FIXED!</span>
+                        <span className="font-bold text-[10px] md:text-xs">FIXED!</span>
                       ) : (
-                        <Bug size={24} />
+                        <Bug size={20} className="md:w-6 md:h-6" />
                       )}
                     </motion.button>
                   ))}
