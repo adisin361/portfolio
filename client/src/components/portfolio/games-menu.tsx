@@ -244,7 +244,7 @@ export function GamesMenu() {
                   animate={{ 
                     opacity: 1, 
                     scale: 1, 
-                    y: -(index + 1) * 64
+                    y: -(index + 1) * 72 - 16
                   }}
                   exit={{ opacity: 0, scale: 0.5, y: 0 }}
                   transition={{ 
