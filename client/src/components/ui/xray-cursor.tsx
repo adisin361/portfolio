@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function XrayCursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -6,8 +6,19 @@ export function XrayCursor() {
   const frameRef = useRef<number>(0);
   const gridPointsRef = useRef<{ x: number; y: number; baseHue: number }[]>([]);
   const timeRef = useRef(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -121,7 +132,11 @@ export function XrayCursor() {
         cancelAnimationFrame(frameRef.current);
       }
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <canvas
