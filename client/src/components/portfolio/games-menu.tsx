@@ -105,7 +105,12 @@ export function GamesMenu() {
 
   const squashBug = (id: number) => {
     setBugScore((prev) => prev + 1);
-    setBugs((prev) => prev.filter((bug) => bug.id !== id));
+    setBugs((prev) =>
+      prev.map((bug) => (bug.id === id ? { ...bug, isSquashed: true } : bug))
+    );
+    setTimeout(() => {
+      setBugs((prev) => prev.filter((bug) => bug.id !== id));
+    }, 500);
   };
 
   const startTypingGame = () => {
@@ -327,18 +332,34 @@ export function GamesMenu() {
                   {bugs.map((bug) => (
                     <motion.button
                       key={bug.id}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
+                      initial={{ scale: 0, rotate: Math.random() * 360 }}
+                      animate={{ 
+                        scale: bug.isSquashed ? 1.5 : 1,
+                        opacity: bug.isSquashed ? 0 : 1,
+                        x: [0, Math.random() * 20 - 10],
+                        y: [0, Math.random() * 20 - 10]
+                      }}
+                      transition={{ 
+                        scale: { duration: 0.2 },
+                        opacity: { duration: 0.3, delay: 0.1 },
+                        default: { repeat: Infinity, duration: 2, repeatType: "reverse" }
+                      }}
                       style={{ left: `${bug.x}%`, top: `${bug.y}%` }}
-                      onClick={() => squashBug(bug.id)}
+                      onClick={() => !bug.isSquashed && squashBug(bug.id)}
+                      disabled={bug.isSquashed}
                       className={cn(
-                        "absolute p-3 rounded-full shadow-lg",
-                        bug.type === "syntax" && "bg-red-500",
-                        bug.type === "logic" && "bg-yellow-500",
-                        bug.type === "runtime" && "bg-purple-500"
+                        "absolute p-3 rounded-full shadow-lg transition-colors z-30",
+                        bug.type === "syntax" && "bg-red-500 text-white",
+                        bug.type === "logic" && "bg-yellow-500 text-black",
+                        bug.type === "runtime" && "bg-purple-500 text-white",
+                        bug.isSquashed && "bg-green-500 text-white"
                       )}
                     >
-                      <Bug size={24} />
+                      {bug.isSquashed ? (
+                        <span className="font-bold text-xs">FIXED!</span>
+                      ) : (
+                        <Bug size={24} />
+                      )}
                     </motion.button>
                   ))}
                 </div>
