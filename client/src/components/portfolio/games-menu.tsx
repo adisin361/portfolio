@@ -236,38 +236,43 @@ export function GamesMenu() {
       >
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              className="absolute bottom-full right-0 mb-3 flex flex-col gap-2"
-            >
+            <>
               {games.map((game, index) => (
                 <motion.button
                   key={game.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ delay: index * 0.05 }}
+                  initial={{ opacity: 0, scale: 0.5, y: 0 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: 1, 
+                    y: -(index + 1) * 64
+                  }}
+                  exit={{ opacity: 0, scale: 0.5, y: 0 }}
+                  transition={{ 
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 20,
+                    delay: index * 0.05 
+                  }}
                   onClick={() => setActiveGame(game.id)}
                   className={cn(
-                    "flex items-center gap-3 px-4 py-3 rounded-xl text-white font-medium shadow-lg",
+                    "absolute bottom-0 right-0 p-4 rounded-full text-white shadow-2xl border-2 border-white/10",
                     game.color
                   )}
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.9 }}
                   data-testid={`button-game-${game.id}`}
                 >
-                  <game.icon size={20} />
-                  <span>{game.label}</span>
+                  <game.icon size={24} />
                 </motion.button>
               ))}
-            </motion.div>
+            </>
           )}
         </AnimatePresence>
 
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="p-4 bg-gradient-to-br from-primary via-purple-600 to-pink-600 text-white rounded-full shadow-2xl border-2 border-white/10"
+          className="relative p-4 bg-gradient-to-br from-primary via-purple-600 to-pink-600 text-white rounded-full shadow-2xl border-2 border-white/10"
           data-testid="button-games-menu"
         >
           <Gamepad2 size={28} />
