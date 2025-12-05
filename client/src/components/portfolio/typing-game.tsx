@@ -98,7 +98,7 @@ export function TypingGame() {
   return (
     <>
       <motion.div
-        className="fixed bottom-6 right-24 z-40"
+        className="fixed bottom-42 right-6 z-40"
         initial={false}
         whileHover="hover"
       >

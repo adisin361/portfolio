@@ -125,7 +125,7 @@ export function MemoryCardGame() {
   return (
     <>
       <motion.div
-        className="fixed bottom-6 right-42 z-40"
+        className="fixed bottom-24 right-6 z-40"
         initial={false}
         whileHover="hover"
       >
