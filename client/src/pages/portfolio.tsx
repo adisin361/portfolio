@@ -4,9 +4,7 @@ import { Experience } from "@/components/portfolio/experience";
 import { Projects } from "@/components/portfolio/projects";
 import { Skills } from "@/components/portfolio/skills";
 import { Connect } from "@/components/portfolio/connect";
-import { BugSquashGame } from "@/components/portfolio/bug-squash";
-import { TypingGame } from "@/components/portfolio/typing-game";
-import { MemoryCardGame } from "@/components/portfolio/memory-card-game";
+import { GamesMenu } from "@/components/portfolio/games-menu";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { XrayCursor } from "@/components/ui/xray-cursor";
@@ -27,9 +25,7 @@ export default function Portfolio() {
         <Connect />
       </main>
 
-      <BugSquashGame />
-      <TypingGame />
-      <MemoryCardGame />
+      <GamesMenu />
 
       <footer className="py-8 border-t border-white/10 text-center text-muted-foreground text-sm">
         <p>© {new Date().getFullYear()} Aditya Sinha. Built with React & Tailwind.</p>
