@@ -9,14 +9,14 @@ import { TypingGame } from "@/components/portfolio/typing-game";
 import { MemoryCardGame } from "@/components/portfolio/memory-card-game";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { CustomCursor } from "@/components/ui/custom-cursor";
-import { CursorParticles } from "@/components/ui/cursor-particles";
+import { XrayCursor } from "@/components/ui/xray-cursor";
 
 export default function Portfolio() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30 cursor-none">
       <ScrollProgress />
       <CustomCursor />
-      <CursorParticles />
+      <XrayCursor />
       <Navbar />
       
       <main>
